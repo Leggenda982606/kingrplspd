@@ -3,9 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LSPD - Los Santos Police Department</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>LSPD - Los Santos Police Department | FiveM Roleplay Server</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-blue: #0a1a3a;
+            --secondary-blue: #1a3a6b;
+            --accent-gold: #ffd700;
+            --accent-orange: #ff6b35;
+            --dark-overlay: rgba(10, 26, 58, 0.9);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,233 +26,555 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0c1445 0%, #1a237e 100%);
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-blue);
             color: white;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Navigation */
+        /* Enhanced Navigation */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(13, 71, 161, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
+            background: rgba(10, 26, 58, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--accent-gold);
+            padding: 1rem 0;
             z-index: 1000;
-            border-bottom: 3px solid #ffd700;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 26, 58, 0.98);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
         }
 
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ffd700;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
         }
 
         .logo i {
-            margin-right: 10px;
-            font-size: 2rem;
+            margin-right: 15px;
+            font-size: 2.2rem;
+            background: linear-gradient(45deg, var(--accent-gold), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 0.5rem;
         }
 
         .nav-links a {
             color: white;
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
         }
 
         .nav-links a:hover {
-            background: rgba(255, 215, 0, 0.2);
-            color: #ffd700;
+            background: var(--glass-bg);
+            color: var(--accent-gold);
+            transform: translateY(-2px);
         }
 
-        /* Hero Section */
+        /* Enhanced Hero Section */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23001f3f" width="1200" height="800"/><polygon fill="%23003f7f" points="0,800 400,600 800,700 1200,500 1200,800"/><polygon fill="%230056b3" points="0,600 300,400 600,500 900,300 1200,400 1200,800 0,800"/></svg>') center/cover;
+            background: 
+                linear-gradient(rgba(0,0,0,0.4), rgba(10, 26, 58, 0.8)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><defs><linearGradient id="cityscape" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23001122;stop-opacity:1" /><stop offset="50%" style="stop-color:%23003366;stop-opacity:1" /><stop offset="100%" style="stop-color:%23004488;stop-opacity:1" /></linearGradient></defs><rect width="1920" height="1080" fill="url(%23cityscape)"/><rect x="100" y="600" width="80" height="480" fill="%23001a33" opacity="0.8"/><rect x="200" y="500" width="100" height="580" fill="%23002244" opacity="0.8"/><rect x="320" y="650" width="60" height="430" fill="%23001a33" opacity="0.8"/><rect x="400" y="450" width="120" height="630" fill="%23002244" opacity="0.8"/><rect x="540" y="580" width="90" height="500" fill="%23001a33" opacity="0.8"/><rect x="650" y="400" width="110" height="680" fill="%23002244" opacity="0.8"/><rect x="780" y="520" width="80" height="560" fill="%23001a33" opacity="0.8"/><rect x="880" y="350" width="130" height="730" fill="%23002244" opacity="0.8"/><rect x="1030" y="480" width="100" height="600" fill="%23001a33" opacity="0.8"/><rect x="1150" y="420" width="90" height="660" fill="%23002244" opacity="0.8"/><rect x="1260" y="550" width="70" height="530" fill="%23001a33" opacity="0.8"/><rect x="1350" y="380" width="110" height="700" fill="%23002244" opacity="0.8"/><rect x="1480" y="500" width="85" height="580" fill="%23001a33" opacity="0.8"/><rect x="1580" y="320" width="120" height="760" fill="%23002244" opacity="0.8"/><rect x="1720" y="450" width="90" height="630" fill="%23001a33" opacity="0.8"/><circle cx="200" cy="480" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="450" cy="420" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="680" cy="380" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="920" cy="330" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="1180" cy="400" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="1400" cy="360" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="1620" cy="300" r="3" fill="%23ffd700" opacity="0.8"/></svg>') center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(10, 26, 58, 0.3) 70%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            padding: 2rem;
+        }
+
+        .hero-badge {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.5rem 2rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            animation: slideInDown 1s ease-out;
         }
 
         .hero-content h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-            animation: fadeInUp 1s ease-out;
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #fff 50%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
+            animation: fadeInUp 1s ease-out 0.3s both;
         }
 
-        .hero-content p {
-            font-size: 1.5rem;
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 4vw, 2rem);
             margin-bottom: 2rem;
-            opacity: 0.9;
-            animation: fadeInUp 1s ease-out 0.5s both;
+            opacity: 0.95;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 1.2s both;
         }
 
         .cta-button {
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            background: linear-gradient(135deg, var(--accent-orange), #ff8c42);
             color: white;
-            padding: 15px 40px;
+            padding: 18px 40px;
             border: none;
             border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
-            animation: fadeInUp 1s ease-out 1s both;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
         }
 
         .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
         }
 
-        /* Page Content */
+        .cta-secondary {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 2px solid var(--glass-border);
+            color: white;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        /* Enhanced Page Sections */
         .page {
             display: none;
-            padding: 120px 2rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 120px 0 2rem;
         }
 
         .page.active {
             display: block;
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-        .section h2 {
-            color: #ffd700;
-            margin-bottom: 1rem;
-            font-size: 2.5rem;
+        .section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.03) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: 0;
+        }
+
+        .section > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
             text-align: center;
+            margin-bottom: 3rem;
         }
 
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.8;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Cards */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
+            margin-top: 3rem;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 2rem;
+            background: linear-gradient(135deg, var(--glass-bg) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2.5rem;
             text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.4s ease;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+            group: hover;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 215, 0, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.5);
         }
 
-        .card i {
-            font-size: 3rem;
-            color: #ffd700;
-            margin-bottom: 1rem;
+        .card-icon {
+            font-size: 4rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+            transition: all 0.4s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.1) rotateY(180deg);
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
         }
 
         .card h3 {
-            color: #ffd700;
+            color: var(--accent-gold);
             margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 600;
         }
 
-        /* Staff Cards */
+        .card p {
+            opacity: 0.9;
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        /* Enhanced Staff Cards */
         .staff-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,215,0,0.1) 100%);
-            border-radius: 15px;
-            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,215,0,0.05) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .staff-card::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .staff-card:hover::before {
+            top: -150%;
+            left: -150%;
+            transform: rotate(360deg);
         }
 
         .staff-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3);
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 30px 70px rgba(255, 215, 0, 0.3);
         }
 
         .staff-avatar {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            background: linear-gradient(45deg, #0d47a1, #1565c0);
-            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
+            margin: 0 auto 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            color: #ffd700;
-            border: 3px solid #ffd700;
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            border: 3px solid var(--accent-gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .staff-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .staff-role {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
         }
 
         .rank {
-            background: linear-gradient(45deg, #ff6b35, #ffd700);
-            color: #000;
-            padding: 5px 15px;
-            border-radius: 20px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-gold));
+            color: var(--primary-blue);
+            padding: 8px 20px;
+            border-radius: 25px;
             font-size: 0.9rem;
-            font-weight: bold;
+            font-weight: 700;
             display: inline-block;
-            margin-top: 0.5rem;
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
         }
 
-        /* Rules Section */
+        /* Enhanced Rules */
         .rule-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 4px solid #ffd700;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 0 10px 10px 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border-left: 4px solid var(--accent-gold);
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 15px 15px 0;
+            border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--accent-gold);
+            transition: all 0.3s ease;
+        }
+
+        .rule-item:hover {
+            background: rgba(255, 215, 0, 0.05);
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
         }
 
         .rule-number {
-            color: #ff6b35;
-            font-weight: bold;
-            font-size: 1.2rem;
+            color: var(--accent-orange);
+            font-weight: 800;
+            font-size: 1.5rem;
+            font-family: 'Orbitron', monospace;
         }
 
-        /* Footer */
-        .footer {
-            background: rgba(0, 0, 0, 0.3);
+        .rule-title {
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        /* Statistics Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-item {
             text-align: center;
             padding: 2rem;
-            border-top: 2px solid #ffd700;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        /* Enhanced Footer */
+        .footer {
+            background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(10, 26, 58, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            border-top: 2px solid var(--accent-gold);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+            opacity: 1;
         }
 
         /* Animations */
@@ -251,12 +586,28 @@
         @keyframes fadeInUp {
             from { 
                 opacity: 0; 
-                transform: translateY(30px); 
+                transform: translateY(50px); 
             }
             to { 
                 opacity: 1; 
                 transform: translateY(0); 
             }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         /* Mobile Responsive */
@@ -273,25 +624,73 @@
                 grid-template-columns: 1fr;
             }
             
-            .navbar {
-                padding: 1rem;
+            .section {
+                padding: 2rem;
+                margin: 2rem 0;
             }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            border-top: 3px solid var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="logo">
                 <i class="fas fa-shield-alt"></i>
                 LSPD
             </div>
             <ul class="nav-links">
-                <li><a href="#" onclick="showPage('home')">Home</a></li>
-                <li><a href="#" onclick="showPage('dipartimenti')">Dipartimenti</a></li>
-                <li><a href="#" onclick="showPage('regole')">Regolamento</a></li>
-                <li><a href="#" onclick="showPage('staff')">Staff</a></li>
-                <li><a href="#" onclick="showPage('contatti')">Contatti</a></li>
+                <li><a href="#" onclick="showPage('home')"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" onclick="showPage('dipartimenti')"><i class="fas fa-sitemap"></i> Dipartimenti</a></li>
+                <li><a href="#" onclick="showPage('regole')"><i class="fas fa-gavel"></i> Regolamento</a></li>
+                <li><a href="#" onclick="showPage('staff')"><i class="fas fa-users-cog"></i> Staff</a></li>
+                <li><a href="#" onclick="showPage('contatti')"><i class="fas fa-phone"></i> Contatti</a></li>
             </ul>
         </div>
     </nav>
@@ -300,77 +699,177 @@
     <div id="home" class="page active">
         <div class="hero">
             <div class="hero-content">
-                <h1><i class="fas fa-star"></i> LSPD SERVER</h1>
-                <p>Proteggi e Servi Los Santos</p>
-                <a href="fivem://connect/192.168.1.1:30120" class="cta-button">
-                    <i class="fas fa-play"></i> ENTRA NEL SERVER
-                </a>
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i> SERVER PREMIUM FiveM
+                </div>
+                <h1>LSPD SERVER</h1>
+                <p class="hero-subtitle">Los Santos Police Department</p>
+                <p class="hero-description">
+                    Vivi l'esperienza più realistica come agente di polizia nella città di Los Santos. 
+                    Unisciti a centinaia di giocatori in avventure mozzafiato di roleplay professionale.
+                </p>
+                <div class="cta-buttons">
+                    <a href="fivem://connect/192.168.1.1:30120" class="cta-button">
+                        <i class="fas fa-play"></i> ENTRA NEL SERVER
+                    </a>
+                    <a href="#" onclick="showPage('regole')" class="cta-button cta-secondary">
+                        <i class="fas fa-book"></i> LEGGI IL REGOLAMENTO
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Chi Siamo</h2>
-            <p style="text-align: center; font-size: 1.2rem; line-height: 1.6;">
-                Il Los Santos Police Department è il principale dipartimento di polizia della città. 
-                La nostra missione è mantenere l'ordine, proteggere i cittadini e garantire la sicurezza 
-                nelle strade di Los Santos. Unisciti a noi per un'esperienza di roleplay realistica e coinvolgente.
-            </p>
-        </div>
+        <div class="container">
+            <!-- Statistics Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-chart-line"></i> Statistiche Server</h2>
+                    <p class="section-subtitle">Numeri che parlano della nostra community</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="847">0</div>
+                        <div class="stat-label">Membri Attivi</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="156">0</div>
+                        <div class="stat-label">Agenti Online</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2.8">0</div>
+                        <div class="stat-label">Anni di Esperienza</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="99">0</div>
+                        <div class="stat-label">% Uptime Server</div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="cards-grid">
-            <div class="card">
-                <i class="fas fa-users"></i>
-                <h3>Community Attiva</h3>
-                <p>Oltre 500 membri attivi pronti a vivere avventure incredibili insieme</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-microphone"></i>
-                <h3>Voice Chat</h3>
-                <p>Sistema voice chat integrato per un roleplay ancora più immersivo</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-car"></i>
-                <h3>Veicoli Realistici</h3>
-                <p>Flotta completa di veicoli LSPD con sirene e equipaggiamenti reali</p>
+            <!-- Features Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-star"></i> Perché Scegliere LSPD</h2>
+                    <p class="section-subtitle">Un'esperienza di roleplay senza precedenti</p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <i class="card-icon fas fa-users"></i>
+                        <h3>Community Professionale</h3>
+                        <p>Staff esperto e community matura per un roleplay di alta qualità con regole chiare e rispettate</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-microphone"></i>
+                        <h3>Voice Chat 3D</h3>
+                        <p>Sistema voice chat spaziale avanzato per comunicazioni realistiche durante le operazioni</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-car-side"></i>
+                        <h3>Veicoli Personalizzati</h3>
+                        <p>Flotta completa di veicoli LSPD con livree autentiche, sirene reali e equipaggiamenti specializzati</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-map-marked-alt"></i>
+                        <h3>Mappa Espansa</h3>
+                        <p>Los Santos completamente mappata con stazioni di polizia, tribunali e strutture governative</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-shield-alt"></i>
+                        <h3>Sistema Anti-Cheat</h3>
+                        <p>Protezione avanzata contro cheater per garantire un gameplay pulito e competitivo</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-clock"></i>
+                        <h3>Eventi Settimanali</h3>
+                        <p>Training, operazioni speciali e eventi community organizzati dal nostro staff</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- DIPARTIMENTI PAGE -->
     <div id="dipartimenti" class="page">
-        <div class="section">
-            <h2><i class="fas fa-sitemap"></i> Dipartimenti LSPD</h2>
-            
-            <div class="cards-grid">
-                <div class="card">
-                    <i class="fas fa-road"></i>
-                    <h3>Traffic Division</h3>
-                    <p>Controllo del traffico, pattugliamento stradale e gestione degli incidenti</p>
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-sitemap"></i> Dipartimenti LSPD</h2>
+                    <p class="section-subtitle">Specializzazioni professionali per ogni tipo di servizio</p>
                 </div>
-                <div class="card">
-                    <i class="fas fa-search"></i>
-                    <h3>Detective Bureau</h3>
-                    <p>Investigazioni criminali, omicidi e casi complessi</p>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <i class="card-icon fas fa-road"></i>
+                        <h3>Traffic Division</h3>
+                        <p>Controllo del traffico, pattugliamento stradale, gestione incidenti e operazioni di sicurezza stradale. Equipaggiata con radar e veicoli ad alte prestazioni.</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-search"></i>
+                        <h3>Detective Bureau</h3>
+                        <p>Investigazioni criminali, omicidi, rapine e casi complessi. Unit investigativa specializzata in crimini gravi e raccolta prove.</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-helicopter"></i>
+                        <h3>Air Support Unit</h3>
+                        <p>Supporto aereo per inseguimenti, ricerca e soccorso, e operazioni speciali. Elicotteri equipaggiati con tecnologia avanzata.</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-user-shield"></i>
+                        <h3>SWAT Team</h3>
+                        <p>Unità speciale per situazioni ad alto rischio, ostaggi, terrorismo e crimini violenti. Addestramento militare e equipaggiamento tattico.</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-motorcycle"></i>
+                        <h3>Motorcycle Unit</h3>
+                        <p>Pattuglie motociclistiche per zone trafficate, scorte VIP e interventi rapidi. Mobilità estrema in situazioni urbane.</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-dog"></i>
+                        <h3>K-9 Unit</h3>
+                        <p>Unità cinofila specializzata in ricerca droghe, esplosivi, ricerca persone scomparse e supporto tattico.</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-water"></i>
+                        <h3>Marine Unit</h3>
+                        <p>Pattugliamento costiero, soccorso marittimo e controllo delle attività portuali. Imbarcazioni veloci e equipaggiamento subacqueo.</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-user-tie"></i>
+                        <h3>Internal Affairs</h3>
+                        <p>Controllo interno, investigazioni su misconduct e mantenimento degli standard etici del dipartimento.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <i class="fas fa-helicopter"></i>
-                    <h3>Air Support</h3>
-                    <p>Unità aerea per inseguimenti e supporto operativo</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3>SWAT Team</h3>
-                    <p>Unità speciale per situazioni ad alto rischio</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-motorcycle"></i>
-                    <h3>Motorcycle Unit</h3>
-                    <p>Pattuglie motociclistiche per zone trafficate</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-dog"></i>
-                    <h3>K-9 Unit</h3>
-                    <p>Unità cinofila per ricerca droghe e esplosivi</p>
+
+                <!-- Requirements Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title"><i class="fas fa-clipboard-check"></i> Requisiti per l'Ammissione</h2>
+                    </div>
+                    
+                    <div class="cards-grid">
+                        <div class="card">
+                            <i class="card-icon fas fa-calendar-alt"></i>
+                            <h3>Età Minima</h3>
+                            <p>16+ anni per partecipare alle attività del server</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-microphone"></i>
+                            <h3>Microfono</h3>
+                            <p>Microfono funzionante obbligatorio per il voice chat</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-book-open"></i>
+                            <h3>Conoscenza Regole</h3>
+                            <p>Studio completo del regolamento server prima dell'ammissione</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-clock"></i>
+                            <h3>Attività</h3>
+                            <p>Minimo 10 ore settimanali di presenza attiva</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -378,81 +877,198 @@
 
     <!-- REGOLE PAGE -->
     <div id="regole" class="page">
-        <div class="section">
-            <h2><i class="fas fa-gavel"></i> Regolamento Server</h2>
-            
-            <div class="rule-item">
-                <div class="rule-number">1.</div>
-                <strong>Rispetto reciproco:</strong> È vietato insultare, offendere o discriminare altri giocatori.
-            </div>
-            
-            <div class="rule-item">
-                <div class="rule-number">2.</div>
-                <strong>Roleplay realistico:</strong> Mantieni sempre il personaggio e agisci in modo realistico.
-            </div>
-            
-            <div class="rule-item">
-                <div class="rule-number">3.</div>
-                <strong>Meta-gaming vietato:</strong> Non utilizzare informazioni ottenute fuori dal gioco.
-            </div>
-            
-            <div class="rule-item">
-                <div class="rule-number">4.</div>
-                <strong>Power-gaming vietato:</strong> Non forzare azioni su altri giocatori senza consenso.
-            </div>
-            
-            <div class="rule-item">
-                <div class="rule-number">5.</div>
-                <strong>Gerarchia rispettata:</strong> Segui la catena di comando e rispetta i gradi superiori.
-            </div>
-            
-            <div class="rule-item">
-                <div class="rule-number">6.</div>
-                <strong>Comunicazioni radio:</strong> Usa il linguaggio appropriato e i codici standard.
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-gavel"></i> Regolamento Server LSPD</h2>
+                    <p class="section-subtitle">Regole fondamentali per mantenere un ambiente di roleplay professionale</p>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-number">1.</div>
+                    <div class="rule-title">Rispetto Reciproco</div>
+                    <p>È severamente vietato insultare, offendere, discriminare o molestare altri giocatori. Mantieni sempre un comportamento rispettoso sia in-game che nei canali Discord.</p>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-number">2.</div>
+                    <div class="rule-title">Roleplay Realistico</div>
+                    <p>Mantieni sempre il personaggio e agisci in modo realistico. Le azioni devono essere coerenti con la situazione e il ruolo che interpreti. Evita comportamenti irrealistici o troll.</p>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-number">3.</div>
+                    <div class="rule-title">Meta-gaming Proibito</div>
+                    <p>È vietato utilizzare informazioni ottenute fuori dal gioco (Discord, stream, ecc.) per influenzare le azioni in-game. Ogni informazione deve essere appresa attraverso il roleplay.</p>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-number">4.</div>
+                    <div class="rule-title">Power-gaming Vietato</div>
+                    <p>Non forzare azioni su altri giocatori senza il loro consenso. Rispetta le azioni degli altri e permetti sempre una risposta realistica alle situazioni.</p>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-number">5.</div>
+                    <div class="rule-title">Catena di Comando</div>
+                    <p>Rispetta rigorosamente la gerarchia del dipartimento. Segui gli ordini dei superiori e mantieni una comunicazione professionale attraverso i canali appropriati.</p>
+                </div>
+                
+                <div class="rule-item">
+                    <div class="rule-number">6.</div>
+                    <div class="rule-title">Comunicazioni Radio</div>
+                    <p>Utilizza il linguaggio appropriato e i codici standard nelle comunicazioni radio. Mantieni le comunicazioni brevi, chiare e professionali durante le operazioni.</p>
+                </div>
+
+                <div class="rule-item">
+                    <div class="rule-number">7.</div>
+                    <div class="rule-title">Fear RP (Fear Roleplay)</div>
+                    <p>Il tuo personaggio deve mostrare paura realistica in situazioni pericolose. Non agire da eroe quando sei in inferiorità numerica o disarmato.</p>
+                </div>
+
+                <div class="rule-item">
+                    <div class="rule-number">8.</div>
+                    <div class="rule-title">New Life Rule (NLR)</div>
+                    <p>Dopo la morte del personaggio, non puoi ricordare gli eventi che hanno portato al decesso per i successivi 30 minuti e non puoi tornare nella zona.</p>
+                </div>
+
+                <!-- Penalties Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title"><i class="fas fa-exclamation-triangle"></i> Sistema Sanzionatorio</h2>
+                    </div>
+                    
+                    <div class="cards-grid">
+                        <div class="card">
+                            <i class="card-icon fas fa-exclamation-circle" style="color: #ffeb3b;"></i>
+                            <h3>Avvertimento</h3>
+                            <p>Prima infrazione minore - Avvertimento verbale o scritto</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-pause-circle" style="color: #ff9800;"></i>
+                            <h3>Sospensione</h3>
+                            <p>1-7 giorni per infrazioni moderate o ripetute</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-ban" style="color: #f44336;"></i>
+                            <h3>Ban Permanente</h3>
+                            <p>Per infrazioni gravi o comportamenti recidivi</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- STAFF PAGE -->
     <div id="staff" class="page">
-        <div class="section">
-            <h2><i class="fas fa-users-cog"></i> Staff LSPD</h2>
-            
-            <div class="cards-grid">
-                <div class="staff-card">
-                    <div class="staff-avatar">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h3>John Smith</h3>
-                    <p>Chief of Police</p>
-                    <div class="rank">CHIEF</div>
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-users-cog"></i> Staff LSPD</h2>
+                    <p class="section-subtitle">Il team di leadership che guida il dipartimento</p>
                 </div>
                 
-                <div class="staff-card">
-                    <div class="staff-avatar">
-                        <i class="fas fa-crown"></i>
+                <div class="cards-grid">
+                    <div class="staff-card">
+                        <div class="staff-avatar">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="staff-name">Commissioner Johnson</div>
+                        <div class="staff-role">Chief of Police</div>
+                        <p>Veterano con 15 anni di esperienza nel law enforcement. Responsabile delle operazioni generali e della strategia dipartimentale.</p>
+                        <div class="rank">COMMISSIONER</div>
                     </div>
-                    <h3>Sarah Johnson</h3>
-                    <p>Assistant Chief</p>
-                    <div class="rank">ASSISTANT CHIEF</div>
+                    
+                    <div class="staff-card">
+                        <div class="staff-avatar">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="staff-name">Deputy Chief Martinez</div>
+                        <div class="staff-role">Assistant Chief</div>
+                        <p>Specialista in operazioni tattiche e formazione del personale. Coordina le unità speciali e le operazioni ad alto rischio.</p>
+                        <div class="rank">DEPUTY CHIEF</div>
+                    </div>
+                    
+                    <div class="staff-card">
+                        <div class="staff-avatar">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="staff-name">Captain Rodriguez</div>
+                        <div class="staff-role">Traffic Division Commander</div>
+                        <p>Responsabile del controllo traffico e della sicurezza stradale. Gestisce le pattuglie e le operazioni di routine.</p>
+                        <div class="rank">CAPTAIN</div>
+                    </div>
+                    
+                    <div class="staff-card">
+                        <div class="staff-avatar">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="staff-name">Lieutenant Chen</div>
+                        <div class="staff-role">Detective Bureau Chief</div>
+                        <p>Esperta investigatrice con specializzazione in crimini violenti. Coordina le investigazioni complesse e la raccolta prove.</p>
+                        <div class="rank">LIEUTENANT</div>
+                    </div>
+
+                    <div class="staff-card">
+                        <div class="staff-avatar">
+                            <i class="fas fa-helicopter"></i>
+                        </div>
+                        <div class="staff-name">Lieutenant Thompson</div>
+                        <div class="staff-role">Air Support Commander</div>
+                        <p>Pilota certificato con esperienza militare. Gestisce le operazioni aeree e coordina il supporto dall'alto.</p>
+                        <div class="rank">LIEUTENANT</div>
+                    </div>
+
+                    <div class="staff-card">
+                        <div class="staff-avatar">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="staff-name">Sergeant Williams</div>
+                        <div class="staff-role">SWAT Team Leader</div>
+                        <p>Ex-militare specializzato in operazioni speciali. Addestra e guida il team SWAT nelle situazioni più pericolose.</p>
+                        <div class="rank">SERGEANT</div>
+                    </div>
                 </div>
-                
-                <div class="staff-card">
-                    <div class="staff-avatar">
-                        <i class="fas fa-medal"></i>
+
+                <!-- Command Structure -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title"><i class="fas fa-sitemap"></i> Struttura Gerarchica</h2>
                     </div>
-                    <h3>Mike Rodriguez</h3>
-                    <p>Captain - Traffic Division</p>
-                    <div class="rank">CAPTAIN</div>
-                </div>
-                
-                <div class="staff-card">
-                    <div class="staff-avatar">
-                        <i class="fas fa-chevron-up"></i>
+                    
+                    <div class="cards-grid">
+                        <div class="card">
+                            <i class="card-icon fas fa-crown" style="color: #gold;"></i>
+                            <h3>Commissioner</h3>
+                            <p>Massima autorità del dipartimento</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-star" style="color: #silver;"></i>
+                            <h3>Deputy Chief</h3>
+                            <p>Vice-comandante e braccio destro</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-shield-alt" style="color: #cd7f32;"></i>
+                            <h3>Captain</h3>
+                            <p>Comandanti di divisione</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-chevron-up"></i>
+                            <h3>Lieutenant</h3>
+                            <p>Supervisori di unità</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-chevron-right"></i>
+                            <h3>Sergeant</h3>
+                            <p>Leader di squadra</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-user"></i>
+                            <h3>Officer</h3>
+                            <p>Agenti operativi</p>
+                        </div>
                     </div>
-                    <h3>Lisa Chen</h3>
-                    <p>Lieutenant - Detective Bureau</p>
-                    <div class="rank">LIEUTENANT</div>
                 </div>
             </div>
         </div>
@@ -460,70 +1076,267 @@
 
     <!-- CONTATTI PAGE -->
     <div id="contatti" class="page">
-        <div class="section">
-            <h2><i class="fas fa-phone"></i> Contatti</h2>
-            
-            <div class="cards-grid">
-                <div class="card">
-                    <i class="fab fa-discord" style="color: #7289DA;"></i>
-                    <h3>Discord Server</h3>
-                    <p>Unisciti al nostro Discord per rimanere aggiornato</p>
-                    <a href="https://discord.gg/tuoserver" style="color: #ffd700; text-decoration: none;">
-                        discord.gg/lspd
-                    </a>
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-phone"></i> Contatti e Informazioni</h2>
+                    <p class="section-subtitle">Tutti i modi per raggiungerci e unirti alla community</p>
                 </div>
                 
-                <div class="card">
-                    <i class="fas fa-server"></i>
-                    <h3>Connessione Server</h3>
-                    <p>IP: 192.168.1.1:30120</p>
-                    <a href="fivem://connect/192.168.1.1:30120" class="cta-button" style="margin-top: 1rem; padding: 10px 20px; font-size: 1rem;">
-                        Connetti
-                    </a>
+                <div class="cards-grid">
+                    <div class="card">
+                        <i class="card-icon fab fa-discord" style="color: #7289DA;"></i>
+                        <h3>Discord Server</h3>
+                        <p>Unisciti al nostro Discord per rimanere aggiornato su eventi, annunci e comunicazioni importanti del dipartimento.</p>
+                        <br>
+                        <a href="https://discord.gg/tuoserver" style="color: var(--accent-gold); text-decoration: none; font-weight: bold;">
+                            <i class="fas fa-external-link-alt"></i> discord.gg/lspd-server
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <i class="card-icon fas fa-server" style="color: var(--accent-orange);"></i>
+                        <h3>Connessione Server</h3>
+                        <p>Collegati direttamente al nostro server FiveM per iniziare la tua carriera come agente LSPD.</p>
+                        <br>
+                        <strong style="color: var(--accent-gold);">IP: 192.168.1.1:30120</strong>
+                        <br><br>
+                        <a href="fivem://connect/192.168.1.1:30120" class="cta-button" style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; font-size: 1rem;">
+                            <i class="fas fa-play"></i> Connetti Ora
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <i class="card-icon fas fa-envelope" style="color: var(--accent-gold);"></i>
+                        <h3>Email Support</h3>
+                        <p>Per supporto tecnico, problemi di accesso, segnalazioni o informazioni generali sul server.</p>
+                        <br>
+                        <a href="mailto:admin@lspd-server.com" style="color: var(--accent-gold); text-decoration: none; font-weight: bold;">
+                            <i class="fas fa-at"></i> admin@lspd-server.com
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <i class="card-icon fab fa-youtube" style="color: #ff0000;"></i>
+                        <h3>YouTube Channel</h3>
+                        <p>Segui i nostri video tutorial, highlight delle operazioni e aggiornamenti sul server.</p>
+                        <br>
+                        <a href="https://youtube.com/@lspd-server" style="color: var(--accent-gold); text-decoration: none; font-weight: bold;">
+                            <i class="fas fa-external-link-alt"></i> LSPD Server Official
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <i class="card-icon fab fa-twitch" style="color: #9146ff;"></i>
+                        <h3>Twitch Streams</h3>
+                        <p>Guarda le operazioni live e gli eventi speciali in diretta streaming.</p>
+                        <br>
+                        <a href="https://twitch.tv/lspd-server" style="color: var(--accent-gold); text-decoration: none; font-weight: bold;">
+                            <i class="fas fa-external-link-alt"></i> twitch.tv/lspd-server
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <i class="card-icon fas fa-question-circle" style="color: var(--accent-orange);"></i>
+                        <h3>FAQ & Support</h3>
+                        <p>Domande frequenti, guide per nuovi giocatori e documentazione completa del server.</p>
+                        <br>
+                        <a href="#" onclick="showPage('regole')" style="color: var(--accent-gold); text-decoration: none; font-weight: bold;">
+                            <i class="fas fa-book"></i> Leggi le FAQ
+                        </a>
+                    </div>
                 </div>
-                
-                <div class="card">
-                    <i class="fas fa-envelope"></i>
-                    <h3>Email</h3>
-                    <p>Per supporto tecnico e info</p>
-                    <a href="mailto:admin@lspd-server.com" style="color: #ffd700; text-decoration: none;">
-                        admin@lspd-server.com
-                    </a>
+
+                <!-- Server Info -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title"><i class="fas fa-info-circle"></i> Informazioni Server</h2>
+                    </div>
+                    
+                    <div class="cards-grid">
+                        <div class="card">
+                            <i class="card-icon fas fa-clock"></i>
+                            <h3>Orari di Maggiore Attività</h3>
+                            <p><strong>Lunedì-Venerdì:</strong> 18:00 - 24:00<br>
+                            <strong>Weekend:</strong> 14:00 - 02:00</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-globe"></i>
+                            <h3>Fuso Orario</h3>
+                            <p>Server basato su orario italiano (CET/CEST)<br>
+                            Eventi programmati in base al fuso europeo</p>
+                        </div>
+                        <div class="card">
+                            <i class="card-icon fas fa-users"></i>
+                            <h3>Capacità Server</h3>
+                            <p><strong>Slot massimi:</strong> 128 giocatori<br>
+                            <strong>Media giornaliera:</strong> 85+ utenti attivi</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <footer class="footer">
-        <p>&copy; 2025 LSPD FiveM Server. Tutti i diritti riservati.</p>
-        <p style="opacity: 0.7;">Los Santos Police Department - Protect and Serve</p>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-shield-alt"></i> LSPD SERVER
+            </div>
+            
+            <div class="footer-links">
+                <a href="#" onclick="showPage('home')">Home</a>
+                <a href="#" onclick="showPage('regole')">Regolamento</a>
+                <a href="#" onclick="showPage('staff')">Staff</a>
+                <a href="#" onclick="showPage('contatti')">Contatti</a>
+                <a href="https://discord.gg/tuoserver">Discord</a>
+            </div>
+            
+            <p>&copy; 2025 LSPD FiveM Server. Tutti i diritti riservati.</p>
+            <p style="opacity: 0.7; margin-top: 0.5rem;">Los Santos Police Department - Protect and Serve</p>
+            <p style="opacity: 0.5; margin-top: 1rem; font-size: 0.9rem;">
+                Questo server non è affiliato con Rockstar Games o Take-Two Interactive.<br>
+                Grand Theft Auto e FiveM sono marchi registrati dei rispettivi proprietari.
+            </p>
+        </div>
     </footer>
 
     <script>
+        // Loading screen
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Page navigation
         function showPage(pageId) {
-            // Nascondi tutte le pagine
+            // Hide all pages
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => page.classList.remove('active'));
             
-            // Mostra la pagina selezionata
+            // Show selected page
             document.getElementById(pageId).classList.add('active');
             
             // Scroll to top
-            window.scrollTo(0, 0);
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
 
-        // Smooth scrolling per i link
+        // Animated counters for statistics
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.ceil(current);
+                    }
+                }, 20);
+            });
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.querySelector('.stat-number')) {
+                        animateCounters();
+                    }
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({
-                        behavior: 'smooth'
+                        behavior: 'smooth',
+                        block: 'start'
                     });
                 }
             });
         });
+
+        // Enhanced card hover effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card, .staff-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+
+        // Mobile menu toggle (basic implementation)
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('mobile-active');
+        }
+
+        // Add mobile styles for nav menu
+        const mobileStyles = `
+            @media (max-width: 768px) {
+                .nav-links.mobile-active {
+                    display: flex;
+                    flex-direction: column;
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    background: rgba(10, 26, 58, 0.98);
+                    backdrop-filter: blur(20px);
+                    padding: 1rem;
+                    border-top: 1px solid var(--glass-border);
+                }
+            }
+        `;
+
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = mobileStyles;
+        document.head.appendChild(styleSheet);
     </script>
 </body>
 </html>
