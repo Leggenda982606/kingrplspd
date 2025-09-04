@@ -3,26 +3,527 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nome Server FiveM</title>
-    <link rel="stylesheet" href="style.css">
+    <title>LSPD - Los Santos Police Department</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c1445 0%, #1a237e 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(13, 71, 161, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 3px solid #ffd700;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23001f3f" width="1200" height="800"/><polygon fill="%23003f7f" points="0,800 400,600 800,700 1200,500 1200,800"/><polygon fill="%230056b3" points="0,600 300,400 600,500 900,300 1200,400 1200,800 0,800"/></svg>') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+            animation: fadeInUp 1s ease-out 1s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
+        }
+
+        /* Page Content */
+        .page {
+            display: none;
+            padding: 120px 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section h2 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .card i {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        /* Staff Cards */
+        .staff-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,215,0,0.1) 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .staff-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .staff-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #0d47a1, #1565c0);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #ffd700;
+            border: 3px solid #ffd700;
+        }
+
+        .rank {
+            background: linear-gradient(45deg, #ff6b35, #ffd700);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        /* Rules Section */
+        .rule-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #ffd700;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .rule-number {
+            color: #ff6b35;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            text-align: center;
+            padding: 2rem;
+            border-top: 2px solid #ffd700;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .navbar {
+                padding: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Nome del tuo Server</h1>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#regole">Regole</a>
-            <a href="#staff">Staff</a>
-            <a href="#contatti">Contatti</a>
-        </nav>
-    </header>
-    
-    <main>
-        <section id="home">
-            <h2>Benvenuto nel nostro server!</h2>
-            <p>IP Server: connect 192.168.1.1:30120</p>
-            <button><a href="fivem://connect/192.168.1.1:30120">Connettiti ora!</a></button>
-        </section>
-    </main>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                LSPD
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('dipartimenti')">Dipartimenti</a></li>
+                <li><a href="#" onclick="showPage('regole')">Regolamento</a></li>
+                <li><a href="#" onclick="showPage('staff')">Staff</a></li>
+                <li><a href="#" onclick="showPage('contatti')">Contatti</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1><i class="fas fa-star"></i> LSPD SERVER</h1>
+                <p>Proteggi e Servi Los Santos</p>
+                <a href="fivem://connect/192.168.1.1:30120" class="cta-button">
+                    <i class="fas fa-play"></i> ENTRA NEL SERVER
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Chi Siamo</h2>
+            <p style="text-align: center; font-size: 1.2rem; line-height: 1.6;">
+                Il Los Santos Police Department è il principale dipartimento di polizia della città. 
+                La nostra missione è mantenere l'ordine, proteggere i cittadini e garantire la sicurezza 
+                nelle strade di Los Santos. Unisciti a noi per un'esperienza di roleplay realistica e coinvolgente.
+            </p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card">
+                <i class="fas fa-users"></i>
+                <h3>Community Attiva</h3>
+                <p>Oltre 500 membri attivi pronti a vivere avventure incredibili insieme</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-microphone"></i>
+                <h3>Voice Chat</h3>
+                <p>Sistema voice chat integrato per un roleplay ancora più immersivo</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-car"></i>
+                <h3>Veicoli Realistici</h3>
+                <p>Flotta completa di veicoli LSPD con sirene e equipaggiamenti reali</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIPARTIMENTI PAGE -->
+    <div id="dipartimenti" class="page">
+        <div class="section">
+            <h2><i class="fas fa-sitemap"></i> Dipartimenti LSPD</h2>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <i class="fas fa-road"></i>
+                    <h3>Traffic Division</h3>
+                    <p>Controllo del traffico, pattugliamento stradale e gestione degli incidenti</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-search"></i>
+                    <h3>Detective Bureau</h3>
+                    <p>Investigazioni criminali, omicidi e casi complessi</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-helicopter"></i>
+                    <h3>Air Support</h3>
+                    <p>Unità aerea per inseguimenti e supporto operativo</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>SWAT Team</h3>
+                    <p>Unità speciale per situazioni ad alto rischio</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-motorcycle"></i>
+                    <h3>Motorcycle Unit</h3>
+                    <p>Pattuglie motociclistiche per zone trafficate</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-dog"></i>
+                    <h3>K-9 Unit</h3>
+                    <p>Unità cinofila per ricerca droghe e esplosivi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REGOLE PAGE -->
+    <div id="regole" class="page">
+        <div class="section">
+            <h2><i class="fas fa-gavel"></i> Regolamento Server</h2>
+            
+            <div class="rule-item">
+                <div class="rule-number">1.</div>
+                <strong>Rispetto reciproco:</strong> È vietato insultare, offendere o discriminare altri giocatori.
+            </div>
+            
+            <div class="rule-item">
+                <div class="rule-number">2.</div>
+                <strong>Roleplay realistico:</strong> Mantieni sempre il personaggio e agisci in modo realistico.
+            </div>
+            
+            <div class="rule-item">
+                <div class="rule-number">3.</div>
+                <strong>Meta-gaming vietato:</strong> Non utilizzare informazioni ottenute fuori dal gioco.
+            </div>
+            
+            <div class="rule-item">
+                <div class="rule-number">4.</div>
+                <strong>Power-gaming vietato:</strong> Non forzare azioni su altri giocatori senza consenso.
+            </div>
+            
+            <div class="rule-item">
+                <div class="rule-number">5.</div>
+                <strong>Gerarchia rispettata:</strong> Segui la catena di comando e rispetta i gradi superiori.
+            </div>
+            
+            <div class="rule-item">
+                <div class="rule-number">6.</div>
+                <strong>Comunicazioni radio:</strong> Usa il linguaggio appropriato e i codici standard.
+            </div>
+        </div>
+    </div>
+
+    <!-- STAFF PAGE -->
+    <div id="staff" class="page">
+        <div class="section">
+            <h2><i class="fas fa-users-cog"></i> Staff LSPD</h2>
+            
+            <div class="cards-grid">
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>John Smith</h3>
+                    <p>Chief of Police</p>
+                    <div class="rank">CHIEF</div>
+                </div>
+                
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Sarah Johnson</h3>
+                    <p>Assistant Chief</p>
+                    <div class="rank">ASSISTANT CHIEF</div>
+                </div>
+                
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3>Mike Rodriguez</h3>
+                    <p>Captain - Traffic Division</p>
+                    <div class="rank">CAPTAIN</div>
+                </div>
+                
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        <i class="fas fa-chevron-up"></i>
+                    </div>
+                    <h3>Lisa Chen</h3>
+                    <p>Lieutenant - Detective Bureau</p>
+                    <div class="rank">LIEUTENANT</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTATTI PAGE -->
+    <div id="contatti" class="page">
+        <div class="section">
+            <h2><i class="fas fa-phone"></i> Contatti</h2>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <i class="fab fa-discord" style="color: #7289DA;"></i>
+                    <h3>Discord Server</h3>
+                    <p>Unisciti al nostro Discord per rimanere aggiornato</p>
+                    <a href="https://discord.gg/tuoserver" style="color: #ffd700; text-decoration: none;">
+                        discord.gg/lspd
+                    </a>
+                </div>
+                
+                <div class="card">
+                    <i class="fas fa-server"></i>
+                    <h3>Connessione Server</h3>
+                    <p>IP: 192.168.1.1:30120</p>
+                    <a href="fivem://connect/192.168.1.1:30120" class="cta-button" style="margin-top: 1rem; padding: 10px 20px; font-size: 1rem;">
+                        Connetti
+                    </a>
+                </div>
+                
+                <div class="card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p>Per supporto tecnico e info</p>
+                    <a href="mailto:admin@lspd-server.com" style="color: #ffd700; text-decoration: none;">
+                        admin@lspd-server.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 LSPD FiveM Server. Tutti i diritti riservati.</p>
+        <p style="opacity: 0.7;">Los Santos Police Department - Protect and Serve</p>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            // Nascondi tutte le pagine
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Mostra la pagina selezionata
+            document.getElementById(pageId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Smooth scrolling per i link
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
